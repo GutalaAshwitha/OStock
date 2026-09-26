@@ -50,12 +50,12 @@ export default function DeliveriesPage() {
 
   return (
     <AppShell>
-      <div className="p-6 max-w-7xl mx-auto w-full">
+      <div className="p-4 sm:p-6 max-w-7xl mx-auto w-full">
         {/* Header */}
-        <div className="flex items-start justify-between mb-6">
+        <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 mb-6">
           <div>
             <div className="flex items-center gap-2 mb-1">
-              <Truck className="w-5 h-5 text-blue-600" />
+              <Truck className="w-5 h-5 text-blue-600 flex-shrink-0" />
               <h1 className="text-xl font-bold text-slate-900">Delivery Orders</h1>
             </div>
             <p className="text-sm text-slate-500">Manage outgoing stock — pick, pack, validate</p>
@@ -63,7 +63,7 @@ export default function DeliveriesPage() {
           <button
             id="btn-new-delivery"
             onClick={() => setShowModal(true)}
-            className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white text-sm font-semibold rounded-xl hover:bg-blue-700 transition shadow-sm shadow-blue-200 cursor-pointer"
+            className="inline-flex items-center justify-center gap-2 px-4 py-2 bg-blue-600 text-white text-sm font-semibold rounded-xl hover:bg-blue-700 transition shadow-sm shadow-blue-200 cursor-pointer w-full sm:w-auto"
           >
             <Plus className="w-4 h-4" /> New Delivery
           </button>
@@ -76,7 +76,7 @@ export default function DeliveriesPage() {
 
         {/* Table Card */}
         <div className="bg-white rounded-2xl border border-slate-200/80 shadow-xs overflow-hidden">
-          <div className="overflow-x-auto">
+          <div className="overflow-x-auto min-w-0">
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-slate-100 bg-slate-50/70">
@@ -113,14 +113,14 @@ export default function DeliveriesPage() {
                 ) : (
                   deliveries.map(d => (
                     <tr key={d.id} className="hover:bg-slate-50/60 transition cursor-pointer" onClick={() => window.location.href = `/deliveries/${d.id}`}>
-                      <td className="px-5 py-3.5 font-semibold text-slate-800">{d.reference || '—'}</td>
+                      <td className="px-5 py-3.5 font-semibold text-slate-800 break-words">{d.reference || '—'}</td>
                       <td className="px-5 py-3.5 text-slate-700">
-                        {d.products?.name ?? '—'}
+                        <span className="font-medium text-slate-800 break-words">{d.products?.name ?? '—'}</span>
                         <span className="text-slate-400 text-xs ml-1">{d.products?.uom}</span>
                       </td>
-                      <td className="px-5 py-3.5 font-semibold text-slate-800 tabular-nums">{d.quantity}</td>
-                      <td className="px-5 py-3.5 text-slate-500">{d.locations?.name ?? '—'}</td>
-                      <td className="px-5 py-3.5">
+                      <td className="px-5 py-3.5 font-semibold text-slate-800 tabular-nums whitespace-nowrap">{d.quantity}</td>
+                      <td className="px-5 py-3.5 text-slate-500 whitespace-nowrap">{d.locations?.name ?? '—'}</td>
+                      <td className="px-5 py-3.5 whitespace-nowrap">
                         <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold capitalize ${STATUS_STYLES[d.status] || STATUS_STYLES.draft}`}>
                           {d.status}
                         </span>
@@ -128,7 +128,7 @@ export default function DeliveriesPage() {
                       <td className="px-5 py-3.5 text-slate-400 text-xs whitespace-nowrap">
                         {new Date(d.created_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
                       </td>
-                      <td className="px-5 py-3.5">
+                      <td className="px-5 py-3.5 whitespace-nowrap text-right">
                         <Link href={`/deliveries/${d.id}`} onClick={e => e.stopPropagation()}
                           className="inline-flex items-center gap-1 text-xs text-blue-600 font-semibold hover:text-blue-800 transition">
                           <Eye className="w-3.5 h-3.5" /> View

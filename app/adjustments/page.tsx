@@ -103,9 +103,9 @@ export default function AdjustmentsPage() {
 
   return (
     <AppShell>
-      <div className="p-6 max-w-7xl mx-auto w-full">
+      <div className="p-4 sm:p-6 max-w-7xl mx-auto w-full">
         <div className="flex items-center gap-2 mb-1">
-          <Scale className="w-5 h-5 text-blue-600" />
+          <Scale className="w-5 h-5 text-blue-600 flex-shrink-0" />
           <h1 className="text-xl font-bold text-slate-900">Stock Adjustments</h1>
         </div>
         <p className="text-sm text-slate-500 mb-6">Correct mismatches between system records and physical counts</p>
@@ -116,9 +116,9 @@ export default function AdjustmentsPage() {
             <div className="px-5 py-3.5 border-b border-slate-100 bg-slate-50/60">
               <h2 className="text-sm font-bold text-slate-800">New Adjustment</h2>
             </div>
-            <div className="p-5 space-y-4">
-              {error && <div className="p-3 bg-red-50 border border-red-200 rounded-xl text-sm text-red-700 font-medium">⚠ {error}</div>}
-              {success && <div className="p-3 bg-emerald-50 border border-emerald-200 rounded-xl text-sm text-emerald-700 font-medium">✓ {success}</div>}
+            <div className="p-4 sm:p-5 space-y-4">
+              {error && <div className="p-3 bg-red-50 border border-red-200 rounded-xl text-sm text-red-700 font-medium break-words">⚠ {error}</div>}
+              {success && <div className="p-3 bg-emerald-50 border border-emerald-200 rounded-xl text-sm text-emerald-700 font-medium break-words">✓ {success}</div>}
 
               <div>
                 <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1.5">Product *</label>

@@ -35,13 +35,13 @@ export default function TransferDetailPage({ params }: { params: Promise<{ id: s
 
   return (
     <AppShell>
-      <div className="p-6 max-w-3xl mx-auto w-full">
+      <div className="p-4 sm:p-6 max-w-3xl mx-auto w-full">
         <button onClick={() => router.push('/transfers')} className="inline-flex items-center gap-1.5 text-sm text-slate-500 hover:text-slate-800 font-medium mb-4 transition cursor-pointer">
           <ArrowLeft className="w-4 h-4" /> Back to Transfers
         </button>
 
-        <div className="flex items-center gap-3 mb-1">
-          <h1 className="text-xl font-bold text-slate-900">Internal Transfer</h1>
+        <div className="flex flex-wrap items-center justify-between gap-3 mb-1">
+          <h1 className="text-lg sm:text-xl font-bold text-slate-900">Internal Transfer</h1>
           <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700">{transfer.status}</span>
         </div>
         <p className="text-xs text-slate-400 mb-6">Created {new Date(transfer.created_at).toLocaleString('en-IN')}</p>
@@ -51,27 +51,32 @@ export default function TransferDetailPage({ params }: { params: Promise<{ id: s
             <div className="px-5 py-3.5 border-b border-slate-100 bg-slate-50/60">
               <h2 className="text-sm font-bold text-slate-800">Transfer Details</h2>
             </div>
-            <div className="p-5 grid grid-cols-2 gap-5">
-              <div><p className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1">Product</p>
-                <p className="font-semibold text-slate-900">{transfer.products?.name}</p>
-                <p className="text-xs text-slate-400">SKU: {transfer.products?.sku}</p>
+            <div className="p-4 sm:p-5 grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
+              <div className="min-w-0">
+                <p className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1">Product</p>
+                <p className="font-semibold text-slate-900 break-words">{transfer.products?.name}</p>
+                <p className="text-xs text-slate-400 break-all">SKU: {transfer.products?.sku}</p>
               </div>
-              <div><p className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1">Quantity Moved</p>
+              <div>
+                <p className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1">Quantity Moved</p>
                 <p className="text-2xl font-bold text-blue-600">{transfer.quantity} <span className="text-sm font-normal text-slate-500">{transfer.products?.uom}</span></p>
               </div>
-              <div><p className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1">Route</p>
-                <p className="font-medium text-slate-700 inline-flex items-center gap-2">
-                  {transfer.fromLoc?.name ?? '—'} <ArrowRight className="w-4 h-4 text-slate-400" /> {transfer.toLoc?.name ?? '—'}
+              <div className="min-w-0">
+                <p className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1">Route</p>
+                <p className="font-medium text-slate-700 inline-flex flex-wrap items-center gap-2 break-words">
+                  {transfer.fromLoc?.name ?? '—'} <ArrowRight className="w-4 h-4 text-slate-400 flex-shrink-0" /> {transfer.toLoc?.name ?? '—'}
                 </p>
               </div>
-              <div><p className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1">Total On-Hand (unchanged)</p>
+              <div>
+                <p className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1">Total On-Hand (unchanged)</p>
                 <p className="font-semibold text-emerald-600">{transfer.products?.qty_on_hand} {transfer.products?.uom}
-                  <span className="text-xs text-slate-400 font-normal ml-1">— transfers never change this</span>
+                  <span className="text-xs text-slate-400 font-normal ml-1 block sm:inline">— transfers never change this</span>
                 </p>
               </div>
               {transfer.reference && (
-                <div className="col-span-2"><p className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1">Note</p>
-                  <p className="text-slate-600">{transfer.reference}</p>
+                <div className="col-span-1 sm:col-span-2 min-w-0">
+                  <p className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1">Note</p>
+                  <p className="text-slate-600 break-words">{transfer.reference}</p>
                 </div>
               )}
             </div>

@@ -52,9 +52,9 @@ export default function HistoryPage() {
 
   return (
     <AppShell>
-      <div className="p-6 max-w-7xl mx-auto w-full">
+      <div className="p-4 sm:p-6 max-w-7xl mx-auto w-full">
         <div className="flex items-center gap-2 mb-1">
-          <History className="w-5 h-5 text-blue-600" />
+          <History className="w-5 h-5 text-blue-600 flex-shrink-0" />
           <h1 className="text-xl font-bold text-slate-900">Move History</h1>
         </div>
         <p className="text-sm text-slate-500 mb-6">Full audit ledger of all stock movements</p>
@@ -68,8 +68,8 @@ export default function HistoryPage() {
             { label: 'Adjustments', value: totalAdjustments, color: 'text-amber-600' },
           ].map(({ label, value, color }) => (
             <div key={label} className="bg-white rounded-2xl border border-slate-200/80 shadow-xs p-4">
-              <p className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1">{label}</p>
-              <p className={`text-3xl font-bold ${color}`}>{value}</p>
+              <p className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1 truncate">{label}</p>
+              <p className={`text-2xl sm:text-3xl font-bold ${color}`}>{value}</p>
             </div>
           ))}
         </div>
@@ -77,7 +77,7 @@ export default function HistoryPage() {
         <div className="mb-4"><FilterBar syncUrl={true} /></div>
 
         <div className="bg-white rounded-2xl border border-slate-200/80 shadow-xs overflow-hidden">
-          <div className="overflow-x-auto">
+          <div className="overflow-x-auto min-w-0">
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-slate-100 bg-slate-50/70">
@@ -110,24 +110,24 @@ export default function HistoryPage() {
                 ) : (
                   moves.map(m => (
                     <tr key={m.id} className="hover:bg-slate-50/60 transition">
-                      <td className="px-5 py-3">
+                      <td className="px-5 py-3 whitespace-nowrap">
                         <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold ${TYPE_STYLES[m.move_type] || 'bg-slate-100 text-slate-600'}`}>
                           {TYPE_LABELS[m.move_type] || m.move_type}
                         </span>
                       </td>
-                      <td className="px-5 py-3 font-semibold text-slate-800">{m.products?.name ?? '—'}</td>
-                      <td className={`px-5 py-3 font-bold tabular-nums ${m.quantity < 0 ? 'text-red-600' : 'text-slate-800'}`}>
+                      <td className="px-5 py-3 font-semibold text-slate-800 break-words">{m.products?.name ?? '—'}</td>
+                      <td className={`px-5 py-3 font-bold tabular-nums whitespace-nowrap ${m.quantity < 0 ? 'text-red-600' : 'text-slate-800'}`}>
                         {m.quantity > 0 ? '+' : ''}{m.quantity} <span className="text-slate-400 font-normal text-xs">{m.products?.uom}</span>
                       </td>
-                      <td className="px-5 py-3 text-slate-500 text-xs">
+                      <td className="px-5 py-3 text-slate-500 text-xs whitespace-nowrap">
                         <span className="inline-flex items-center gap-1.5">
                           {m.fromLoc?.name ?? '—'}
                           <ArrowRight className="w-3 h-3 text-slate-400" />
                           {m.toLoc?.name ?? '—'}
                         </span>
                       </td>
-                      <td className="px-5 py-3 text-slate-500 text-xs">{m.reference ?? '—'}</td>
-                      <td className="px-5 py-3">
+                      <td className="px-5 py-3 text-slate-500 text-xs break-words">{m.reference ?? '—'}</td>
+                      <td className="px-5 py-3 whitespace-nowrap">
                         <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold capitalize ${m.status === 'done' ? 'bg-emerald-50 text-emerald-700' : m.status === 'canceled' ? 'bg-red-50 text-red-600' : 'bg-slate-100 text-slate-600'}`}>
                           {m.status}
                         </span>

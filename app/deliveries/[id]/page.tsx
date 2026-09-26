@@ -106,26 +106,28 @@ export default function DeliveryDetailPage({ params }: { params: Promise<{ id: s
 
   return (
     <AppShell>
-      <div className="p-6 max-w-3xl mx-auto w-full">
+      <div className="p-4 sm:p-6 max-w-3xl mx-auto w-full">
         <button onClick={() => router.push('/deliveries')} className="inline-flex items-center gap-1.5 text-sm text-slate-500 hover:text-slate-800 font-medium mb-4 transition cursor-pointer">
           <ArrowLeft className="w-4 h-4" /> Back to Deliveries
         </button>
 
-        <div className="flex items-center gap-3 mb-1">
-          <h1 className="text-xl font-bold text-slate-900">Delivery — {delivery.reference || 'No reference'}</h1>
+        <div className="flex flex-wrap items-center justify-between gap-3 mb-1">
+          <h1 className="text-lg sm:text-xl font-bold text-slate-900 break-words">Delivery — {delivery.reference || 'No reference'}</h1>
           <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold capitalize ${STATUS_STYLES[delivery.status]}`}>{delivery.status}</span>
         </div>
         <p className="text-xs text-slate-400 mb-2">Created {new Date(delivery.created_at).toLocaleString('en-IN')}</p>
-        <StepBar status={delivery.status} />
+        <div className="overflow-x-auto py-1">
+          <StepBar status={delivery.status} />
+        </div>
 
         <div className="mt-6 space-y-4">
           {error && (
             <div id="delivery-validate-error" className="p-4 bg-red-50 border border-red-200 rounded-2xl">
               <div className="flex items-start gap-2.5">
                 <XCircle className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
-                <div>
+                <div className="min-w-0">
                   <p className="text-sm font-semibold text-red-700">Cannot validate delivery</p>
-                  <p className="text-sm text-red-600 mt-0.5">{error}</p>
+                  <p className="text-sm text-red-600 mt-0.5 break-words">{error}</p>
                 </div>
               </div>
             </div>
@@ -135,21 +137,26 @@ export default function DeliveryDetailPage({ params }: { params: Promise<{ id: s
             <div className="px-5 py-3.5 border-b border-slate-100 bg-slate-50/60">
               <h2 className="text-sm font-bold text-slate-800">Order Details</h2>
             </div>
-            <div className="p-5 grid grid-cols-2 gap-5">
-              <div><p className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1">Product</p>
-                <p className="font-semibold text-slate-900">{delivery.products?.name}</p>
-                <p className="text-xs text-slate-400">SKU: {delivery.products?.sku}</p>
+            <div className="p-4 sm:p-5 grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
+              <div className="min-w-0">
+                <p className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1">Product</p>
+                <p className="font-semibold text-slate-900 break-words">{delivery.products?.name}</p>
+                <p className="text-xs text-slate-400 break-all">SKU: {delivery.products?.sku}</p>
               </div>
-              <div><p className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1">Quantity</p>
+              <div>
+                <p className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1">Quantity</p>
                 <p className="text-2xl font-bold text-blue-600">{delivery.quantity} <span className="text-sm font-normal text-slate-500">{delivery.products?.uom}</span></p>
               </div>
-              <div><p className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1">Customer / Reference</p>
-                <p className="font-medium text-slate-700">{delivery.reference || '—'}</p>
+              <div className="min-w-0">
+                <p className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1">Customer / Reference</p>
+                <p className="font-medium text-slate-700 break-words">{delivery.reference || '—'}</p>
               </div>
-              <div><p className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1">From Location</p>
-                <p className="font-medium text-slate-700">{delivery.fromLoc?.name ?? '—'}</p>
+              <div className="min-w-0">
+                <p className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1">From Location</p>
+                <p className="font-medium text-slate-700 break-words">{delivery.fromLoc?.name ?? '—'}</p>
               </div>
-              <div><p className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1">Current On-Hand Stock</p>
+              <div>
+                <p className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1">Current On-Hand Stock</p>
                 <p className={`font-semibold ${(delivery.products?.qty_on_hand ?? 0) <= 0 ? 'text-red-600' : 'text-emerald-600'}`}>
                   {delivery.products?.qty_on_hand ?? '—'} {delivery.products?.uom}
                 </p>
@@ -158,29 +165,29 @@ export default function DeliveryDetailPage({ params }: { params: Promise<{ id: s
           </div>
 
           {!isDone && !isCanceled && (
-            <div className="bg-white rounded-2xl border border-slate-200/80 shadow-xs p-5">
+            <div className="bg-white rounded-2xl border border-slate-200/80 shadow-xs p-4 sm:p-5">
               <h2 className="text-sm font-bold text-slate-800 mb-3">Actions</h2>
-              <div className="flex flex-wrap gap-2.5">
+              <div className="flex flex-col sm:flex-row flex-wrap gap-2.5">
                 {delivery.status === 'draft' && (
                   <button id="btn-delivery-mark-picked" onClick={() => advance('waiting')} disabled={updating}
-                    className="px-4 py-2 text-sm font-semibold bg-amber-500 text-white rounded-xl hover:bg-amber-600 disabled:opacity-50 transition cursor-pointer">
+                    className="w-full sm:w-auto px-4 py-2.5 text-sm font-semibold bg-amber-500 text-white rounded-xl hover:bg-amber-600 disabled:opacity-50 transition cursor-pointer text-center">
                     📦 Mark as Picked
                   </button>
                 )}
                 {delivery.status === 'waiting' && (
                   <button id="btn-delivery-mark-packed" onClick={() => advance('ready')} disabled={updating}
-                    className="px-4 py-2 text-sm font-semibold bg-blue-500 text-white rounded-xl hover:bg-blue-600 disabled:opacity-50 transition cursor-pointer">
+                    className="w-full sm:w-auto px-4 py-2.5 text-sm font-semibold bg-blue-500 text-white rounded-xl hover:bg-blue-600 disabled:opacity-50 transition cursor-pointer text-center">
                     📫 Mark as Packed
                   </button>
                 )}
                 {delivery.status === 'ready' && (
                   <button id="btn-delivery-validate" onClick={handleValidate} disabled={updating}
-                    className="px-4 py-2 text-sm font-semibold bg-emerald-600 text-white rounded-xl hover:bg-emerald-700 disabled:opacity-50 transition cursor-pointer">
+                    className="w-full sm:w-auto px-4 py-2.5 text-sm font-semibold bg-emerald-600 text-white rounded-xl hover:bg-emerald-700 disabled:opacity-50 transition cursor-pointer text-center">
                     {updating ? '⏳ Validating…' : '✓ Validate Delivery'}
                   </button>
                 )}
                 <button id="btn-delivery-cancel" onClick={async () => { await supabase.from('stock_moves').update({ status: 'canceled' }).eq('id', id); load(); }} disabled={updating}
-                  className="px-4 py-2 text-sm font-semibold bg-red-500 text-white rounded-xl hover:bg-red-600 disabled:opacity-50 transition cursor-pointer">
+                  className="w-full sm:w-auto px-4 py-2.5 text-sm font-semibold bg-red-500 text-white rounded-xl hover:bg-red-600 disabled:opacity-50 transition cursor-pointer text-center">
                   ✕ Cancel
                 </button>
               </div>
